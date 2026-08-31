@@ -1,16 +1,7 @@
-const menuToggle = document.querySelector("[data-menu-toggle]");
-const siteNav = document.querySelector("[data-site-nav]");
-
-if (menuToggle && siteNav) {
-  menuToggle.addEventListener("click", () => {
-    const isOpen = siteNav.classList.toggle("is-open");
-    menuToggle.setAttribute("aria-expanded", String(isOpen));
-  });
-
-  siteNav.addEventListener("click", (event) => {
-    if (event.target instanceof HTMLAnchorElement) {
-      siteNav.classList.remove("is-open");
-      menuToggle.setAttribute("aria-expanded", "false");
-    }
-  });
-}
+const menu=document.querySelector('[data-site-nav]'),toggle=document.querySelector('[data-menu-toggle]');if(menu&&toggle){toggle.addEventListener('click',()=>{const open=menu.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open))});menu.addEventListener('click',e=>{if(e.target.closest('a')){menu.classList.remove('open');toggle.setAttribute('aria-expanded','false')}})}
+const looks={fresh:{n:'01',title:'Waschen, Schneiden & Styling',text:'Ein typgerechter Schnitt mit Finish – abgestimmt auf Haarstruktur, Alltag und deinen persönlichen Stil.'},color:{n:'02',title:'Individuelle Coloration',text:'Ansatz, Komplettfarbe oder Glossing – gemeinsam finden wir die Nuance, die deinen Teint und Stil zum Leuchten bringt.'},glow:{n:'03',title:'Olaplex & Pflege',text:'Aufbauende Pflege und intensive Feuchtigkeit für spürbar kräftigeres Haar mit gesundem, geschmeidigem Glanz.'},event:{n:'04',title:'Styling für deinen Anlass',text:'Ein individuelles Finish für Hochzeit, Event oder besonderen Abend – elegant, haltbar und ganz du.'}};document.querySelectorAll('[data-look]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('[data-look]').forEach(b=>{b.classList.remove('active');b.setAttribute('aria-selected','false')});btn.classList.add('active');btn.setAttribute('aria-selected','true');const x=looks[btn.dataset.look];document.querySelector('.result-number').textContent=x.n;document.querySelector('[data-result-title]').textContent=x.title;document.querySelector('[data-result-text]').textContent=x.text;document.querySelector('[data-lookfinder]').dataset.theme=btn.dataset.look}));
+const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.13});document.querySelectorAll('.reveal').forEach(e=>observer.observe(e));
+const stage=document.querySelector('[data-hero-stage]');if(stage)stage.addEventListener('pointermove',e=>{const r=stage.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;stage.style.setProperty('--mx',x);stage.style.setProperty('--my',y)});
+document.querySelectorAll('[data-tilt]').forEach(card=>{card.addEventListener('pointermove',e=>{const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;card.style.transform=`perspective(900px) rotateX(${-y*4}deg) rotateY(${x*4}deg)`});card.addEventListener('pointerleave',()=>card.style.transform='')});
+const cards=[...document.querySelectorAll('.stack-card')];cards.forEach(c=>c.addEventListener('click',()=>{cards.forEach(x=>x.classList.remove('front'));c.classList.add('front')}));
+const dot=document.querySelector('.cursor-dot');if(dot&&matchMedia('(pointer:fine)').matches){document.addEventListener('pointermove',e=>{dot.style.transform=`translate(${e.clientX}px,${e.clientY}px)`});document.querySelectorAll('a,button').forEach(e=>{e.addEventListener('mouseenter',()=>dot.classList.add('big'));e.addEventListener('mouseleave',()=>dot.classList.remove('big'))})}
